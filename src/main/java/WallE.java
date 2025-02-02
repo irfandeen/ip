@@ -47,6 +47,7 @@ public class WallE {
         while (!userInput.equals("bye")) {
             String[] params = userInput.split(" ");
             int taskIndex = 0;
+
             switch (params[0]) {
             case "list":
                 printTaskList(tasks, size);
@@ -54,23 +55,25 @@ public class WallE {
             case "mark":
                 taskIndex = Integer.parseInt(params[1]);
                 tasks[taskIndex - 1].markAsDone();
-                printWithLineBreak("Nice! I've marked this task as done:\n" +
-                        "\t  [" + tasks[taskIndex - 1].getStatusIcon() + "] "
-                        + tasks[taskIndex - 1].description);
+                printWithLineBreak("Nice! I've marked this task as done:\n"
+                                    + "\t  [" + tasks[taskIndex - 1].getStatusIcon() + "] "
+                                    + tasks[taskIndex - 1].description);
                 break;
             case "unmark":
                 taskIndex = Integer.parseInt(params[1]);
                 tasks[taskIndex - 1].unmarkAsDone();
-                printWithLineBreak("OK, I've marked this task as not done yet:\n" +
-                        "\t  " + "[ ] " + tasks[taskIndex - 1].description);
+                printWithLineBreak("OK, I've marked this task as not done yet:\n"
+                                    + "\t  " + "[ ] " + tasks[taskIndex - 1].description);
                 break;
             default:
                 tasks[size] = new Task(userInput);
                 size++;
                 printWithLineBreak("added: " + userInput);
             }
+
             userInput = reader.nextLine();
         }
+
         printExit();
     }
 }
