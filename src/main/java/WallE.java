@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class WallE {
     public static void main(String[] args) {
@@ -11,14 +12,30 @@ public class WallE {
 
         System.out.print(greeting);
         Scanner reader = new Scanner(System.in);
-        String inputCommand = reader.nextLine();
+        String userInput = reader.nextLine();
+        String[] tasks = new String[100];
+        int size = 0;
 
         // Echoes the input, unless input == bye
-        while (!inputCommand.equals("bye")) {
-            System.out.print(lineBreak + '\t' + inputCommand + '\n' + lineBreak);
-            inputCommand = reader.nextLine();
-        }
+        while (!userInput.equals("bye")) {
+            String[] params = userInput.split(" ");
+            switch (params[0]) {
+            case "list":
+                int count = 0;
+                System.out.print(lineBreak);
+                for (int i = 0; i < size; i++) {
+                    System.out.println('\t' + Integer.toString(i + 1) + ". " + tasks[i]);
+                }
+                System.out.print(lineBreak);
+                break;
+            default:
+                tasks[size] = userInput;
+                size++;
+                System.out.print(lineBreak + '\t' + "added: " + userInput + '\n' + lineBreak);
+            }
 
+            userInput = reader.nextLine();
+        }
         System.out.print(exitMessage);
     }
 }
