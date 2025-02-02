@@ -1,20 +1,46 @@
 import java.util.Scanner;
-import java.util.ArrayList;
 
 public class WallE {
-    public static void main(String[] args) {
+    public static void printLineBreak() {
         String lineBreak = "\t_________________________________\n";
-        String greeting = lineBreak
-                + "\tHello! I'm Wall-E!\n"
-                + "\tWhat can I do for you?\n\n"
-                + lineBreak;
-        String exitMessage = lineBreak + "\tBye. Hope to see you again soon!\n" + lineBreak;
+        System.out.print(lineBreak);
+    }
 
-        System.out.print(greeting);
+    public static void printWithLineBreak(String response) {
+        printLineBreak();
+        System.out.println("\t" + response);
+        printLineBreak();
+    }
+
+    public static void printWithoutLineBreak(String response) {
+        System.out.println("\t" + response);
+    }
+
+    public static void printGreeting() {
+        String greeting = "Hello! I'm Wall-E!\n" + "\tWhat can I do for you?\n\n";
+        printWithLineBreak(greeting);
+    }
+
+    public static void printExit() {
+        String exitMessage = "Bye. Hope to see you again soon!";
+        printWithLineBreak(exitMessage);
+    }
+
+    public static void printTaskList(Task[] tasks, int size) {
+        printLineBreak();
+        printWithoutLineBreak("Here are the tasks in your list: ");
+        for (int i = 0; i < size; i++) {
+            printWithoutLineBreak(Integer.toString(i + 1) + ". [" + tasks[i].getStatusIcon() + "] "
+                    + tasks[i].description);
+        }
+        printLineBreak();
+    }
+
+    public static void main(String[] args) {
+        printGreeting();
         Scanner reader = new Scanner(System.in);
         String userInput = reader.nextLine();
-        String[] tasks = new String[100];
-        boolean[] isDone = new boolean[100];
+        Task[] tasks = new Task[100];
         int size = 0;
 
         // Echoes the input, unless input == bye
@@ -23,41 +49,28 @@ public class WallE {
             int taskIndex = 0;
             switch (params[0]) {
             case "list":
-                int count = 0;
-                System.out.print(lineBreak);
-                for (int i = 0; i < size; i++) {
-                    if (isDone[i]) {
-                        System.out.println('\t' + Integer.toString(i + 1) + ". " + "[X] " + tasks[i]);
-                    } else {
-                        System.out.println('\t' + Integer.toString(i + 1) + ". " + "[ ] " + tasks[i]);
-                    }
-                }
-                System.out.print(lineBreak);
+                printTaskList(tasks, size);
                 break;
             case "mark":
                 taskIndex = Integer.parseInt(params[1]);
-                System.out.print(lineBreak);
-                System.out.println("\tNice! I've marked this task as done:");
-                System.out.println("\t  " + "[X] " + tasks[taskIndex - 1]);
-                System.out.print(lineBreak);
-                isDone[taskIndex - 1] = true;
+                tasks[taskIndex - 1].markAsDone();
+                printWithLineBreak("Nice! I've marked this task as done:\n" +
+                        "\t  [" + tasks[taskIndex - 1].getStatusIcon() + "] "
+                        + tasks[taskIndex - 1].description);
                 break;
             case "unmark":
                 taskIndex = Integer.parseInt(params[1]);
-                System.out.print(lineBreak);
-                System.out.println("\tOK, I've marked this task as not done yet:");
-                System.out.println("\t  " + "[ ] " + tasks[taskIndex - 1]);
-                System.out.print(lineBreak);
-                isDone[taskIndex - 1] = false;
+                tasks[taskIndex - 1].unmarkAsDone();
+                printWithLineBreak("OK, I've marked this task as not done yet:\n" +
+                        "\t  " + "[ ] " + tasks[taskIndex - 1].description);
                 break;
             default:
-                tasks[size] = userInput;
+                tasks[size] = new Task(userInput);
                 size++;
-                System.out.print(lineBreak + '\t' + "added: " + userInput + '\n' + lineBreak);
+                printWithLineBreak("added: " + userInput);
             }
-
             userInput = reader.nextLine();
         }
-        System.out.print(exitMessage);
+        printExit();
     }
 }
