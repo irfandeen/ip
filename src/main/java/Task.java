@@ -18,4 +18,8 @@ public class Task {
     public void unmarkAsDone() {
         isDone = false;
     }
+
+    public String getType() {
+        return "[ ]";
+    }
 }
