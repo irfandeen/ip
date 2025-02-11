@@ -30,8 +30,7 @@ public class WallE {
         printLineBreak();
         printWithoutLineBreak("Here are the tasks in your list: ");
         for (int i = 0; i < size; i++) {
-            printWithoutLineBreak(Integer.toString(i + 1) + ". [" + tasks[i].getStatusIcon() + "] "
-                    + tasks[i].description);
+            printWithoutLineBreak(Integer.toString(i + 1) + ". " + tasks[i]);
         }
         printLineBreak();
     }
@@ -52,19 +51,39 @@ public class WallE {
             case "list":
                 printTaskList(tasks, size);
                 break;
+
             case "mark":
                 taskIndex = Integer.parseInt(params[1]);
                 tasks[taskIndex - 1].markAsDone();
                 printWithLineBreak("Nice! I've marked this task as done:\n"
-                                    + "\t  [" + tasks[taskIndex - 1].getStatusIcon() + "] "
-                                    + tasks[taskIndex - 1].description);
+                                    + "\t" + tasks[taskIndex - 1]);
                 break;
+
             case "unmark":
                 taskIndex = Integer.parseInt(params[1]);
                 tasks[taskIndex - 1].unmarkAsDone();
                 printWithLineBreak("OK, I've marked this task as not done yet:\n"
-                                    + "\t  " + "[ ] " + tasks[taskIndex - 1].description);
+                                    + "\t" + tasks[taskIndex - 1]);
                 break;
+
+            case "todo":
+                tasks[size] = new Todo(params[1]);
+                size++;
+                printWithLineBreak("added: " + userInput);
+                break;
+
+            case "deadline":
+                tasks[size] = new Deadline(params[1], params[2]);
+                size++;
+                printWithLineBreak("added: " + params[1] + " " + params[2]);
+                break;
+
+            case "event":
+                tasks[size] = new Event(params[1], params[2], params[3]);
+                size++;
+                printWithLineBreak("added: " + params[1] + " " + params[2] + params[3]);
+                break;
+
             default:
                 tasks[size] = new Task(userInput);
                 size++;
