@@ -25,7 +25,7 @@ public class WallE {
         printWithLineBreak(greeting);
     }
 
-    public static void printExit() {
+    public static void printExitMessage() {
         printWithLineBreak(exitMessage);
     }
 
@@ -48,7 +48,16 @@ public class WallE {
         while (!userInput.equals("bye")) {
             String[] params = userInput.split(" ");
             int taskIndex = 0;
+            processInput(params, tasks, userInput);
+            userInput = reader.nextLine();
+        }
 
+        printExitMessage();
+        reader.close();
+    }
+
+    private static void processInput(String[] params, Task[] tasks, String userInput) {
+        try {
             switch (params[0]) {
             case "list":
                 printTaskList(tasks, listSize);
@@ -75,13 +84,13 @@ public class WallE {
                 break;
 
             default:
-                addTask(tasks, userInput);
+                throw new Exception("Invalid command");
             }
-
-            userInput = reader.nextLine();
+        } catch(IndexOutOfBoundsException e) {
+            printWithLineBreak("Invalid number of arguments.");
+        } catch (Exception e) {
+            printWithLineBreak(e.getMessage());
         }
-
-        printExit();
     }
 
     private static void addTask(Task[] tasks, String userInput) {
