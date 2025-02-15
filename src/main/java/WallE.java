@@ -25,7 +25,7 @@ public class WallE {
         printWithLineBreak(greeting);
     }
 
-    public static void printExit() {
+    public static void printExitMessage() {
         printWithLineBreak(exitMessage);
     }
 
@@ -48,43 +48,49 @@ public class WallE {
         while (!userInput.equals("bye")) {
             String[] params = userInput.split(" ");
             int taskIndex = 0;
-
-            try {
-                switch (params[0]) {
-                case "list":
-                    printTaskList(tasks, listSize);
-                    break;
-
-                case "mark":
-                    markTask(params, tasks);
-                    break;
-
-                case "unmark":
-                    unmarkTask(params, tasks);
-                    break;
-
-                case "todo":
-                    addTodo(tasks, params, userInput);
-                    break;
-
-                case "deadline":
-                    addDeadline(tasks, params);
-                    break;
-
-                case "event":
-                    addEvent(tasks, params);
-                    break;
-
-                default:
-                    addTask(tasks, userInput);
-                }
-            } catch (Exception e) {
-                printWithLineBreak("Invalid input. Try again.");
-            }
+            processInput(params, tasks, userInput);
             userInput = reader.nextLine();
         }
 
-        printExit();
+        printExitMessage();
+        reader.close();
+    }
+
+    private static void processInput(String[] params, Task[] tasks, String userInput) {
+        try {
+            switch (params[0]) {
+            case "list":
+                printTaskList(tasks, listSize);
+                break;
+
+            case "mark":
+                markTask(params, tasks);
+                break;
+
+            case "unmark":
+                unmarkTask(params, tasks);
+                break;
+
+            case "todo":
+                addTodo(tasks, params, userInput);
+                break;
+
+            case "deadline":
+                addDeadline(tasks, params);
+                break;
+
+            case "event":
+                addEvent(tasks, params);
+                break;
+
+            default:
+                throw new Exception("Invalid command");
+            }
+        } catch(IndexOutOfBoundsException e) {
+            printWithLineBreak("Invalid number of arguments.");
+        } catch (Exception e) {
+            printWithLineBreak(e.getMessage());
+        }
     }
 
     private static void addTask(Task[] tasks, String userInput) {
