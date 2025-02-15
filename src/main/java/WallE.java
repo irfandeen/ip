@@ -49,35 +49,38 @@ public class WallE {
             String[] params = userInput.split(" ");
             int taskIndex = 0;
 
-            switch (params[0]) {
-            case "list":
-                printTaskList(tasks, listSize);
-                break;
+            try {
+                switch (params[0]) {
+                case "list":
+                    printTaskList(tasks, listSize);
+                    break;
 
-            case "mark":
-                markTask(params, tasks);
-                break;
+                case "mark":
+                    markTask(params, tasks);
+                    break;
 
-            case "unmark":
-                unmarkTask(params, tasks);
-                break;
+                case "unmark":
+                    unmarkTask(params, tasks);
+                    break;
 
-            case "todo":
-                addTodo(tasks, params, userInput);
-                break;
+                case "todo":
+                    addTodo(tasks, params, userInput);
+                    break;
 
-            case "deadline":
-                addDeadline(tasks, params);
-                break;
+                case "deadline":
+                    addDeadline(tasks, params);
+                    break;
 
-            case "event":
-                addEvent(tasks, params);
-                break;
+                case "event":
+                    addEvent(tasks, params);
+                    break;
 
-            default:
-                addTask(tasks, userInput);
+                default:
+                    addTask(tasks, userInput);
+                }
+            } catch (Exception e) {
+                printWithLineBreak("Invalid input. Try again.");
             }
-
             userInput = reader.nextLine();
         }
 
