@@ -84,11 +84,11 @@ public class WallE {
                 break;
 
             default:
-                throw new Exception("Invalid command");
+                throw new WallEException("Invalid command");
             }
         } catch(IndexOutOfBoundsException e) {
             printWithLineBreak("Invalid number of arguments.");
-        } catch (Exception e) {
+        } catch (WallEException e) {
             printWithLineBreak(e.getMessage());
         }
     }
