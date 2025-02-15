@@ -1,3 +1,5 @@
+package walle;
+
 import java.util.Scanner;
 
 public class WallE {
