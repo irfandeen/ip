@@ -1,5 +1,7 @@
 package walle;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class WallE {
@@ -7,6 +9,7 @@ public class WallE {
     private static final String exitMessage = "Bye. Hope to see you again soon!";
     private static final String greeting = "Hello! I'm Wall-E!\n" + "\tWhat can I do for you?\n\n";
     private static int listSize = 0;
+    private static ArrayList<Task> tasks = new ArrayList<>();
 
     public static void printLineBreak() {
         String lineBreak = "\t_________________________________\n";
@@ -31,11 +34,11 @@ public class WallE {
         printWithLineBreak(exitMessage);
     }
 
-    public static void printTaskList(Task[] tasks, int size) {
+    public static void printTaskList(int size) {
         printLineBreak();
         printWithoutLineBreak("Here are the tasks in your list: ");
         for (int i = 0; i < size; i++) {
-            printWithoutLineBreak(Integer.toString(i + 1) + ". " + tasks[i]);
+            printWithoutLineBreak(Integer.toString(i + 1) + ". " + tasks.get(i).toString());
         }
         printLineBreak();
     }
@@ -44,7 +47,7 @@ public class WallE {
         printGreeting();
         Scanner reader = new Scanner(System.in);
         String userInput = reader.nextLine();
-        Task[] tasks = new Task[MAX_LIST_SIZE];
+
 
         // Echoes the input, unless input == bye
         while (!userInput.equals("bye")) {
@@ -58,31 +61,31 @@ public class WallE {
         reader.close();
     }
 
-    private static void processInput(String[] params, Task[] tasks, String userInput) {
+    private static void processInput(String[] params, ArrayList<Task> tasks, String userInput) {
         try {
             switch (params[0]) {
             case "list":
-                printTaskList(tasks, listSize);
+                printTaskList(listSize);
                 break;
 
             case "mark":
-                markTask(params, tasks);
+                markTask(params);
                 break;
 
             case "unmark":
-                unmarkTask(params, tasks);
+                unmarkTask(params);
                 break;
 
             case "todo":
-                addTodo(tasks, params, userInput);
+                addTodo(params, userInput);
                 break;
 
             case "deadline":
-                addDeadline(tasks, params);
+                addDeadline(params);
                 break;
 
             case "event":
-                addEvent(tasks, params);
+                addEvent(params);
                 break;
 
             default:
@@ -95,13 +98,13 @@ public class WallE {
         }
     }
 
-    private static void addTask(Task[] tasks, String userInput) {
-        tasks[listSize] = new Task(userInput);
+    private static void addTask(String userInput) {
+        tasks.add(new Task(userInput));
         listSize++;
         printWithLineBreak("added: " + userInput);
     }
 
-    private static void addEvent(Task[] tasks, String[] params) {
+    private static void addEvent(String[] params) {
         int fromIndex = 0;
         int toIndex = 0;
 
@@ -138,12 +141,12 @@ public class WallE {
             }
         }
 
-        tasks[listSize] = new Event(eventName.toString(), startDate.toString(), endDate.toString());
+        tasks.add(new Event(eventName.toString(), startDate.toString(), endDate.toString()));
         listSize++;
-        printWithLineBreak("added: " + tasks[listSize - 1].toString());
+        printWithLineBreak("added: " + tasks.get(listSize - 1).toString());
     }
 
-    private static void addDeadline(Task[] tasks, String[] params) {
+    private static void addDeadline(String[] params) {
         StringBuilder deadlineName = new StringBuilder();
         StringBuilder byDate = new StringBuilder();
         int stringType = 0;
@@ -169,30 +172,30 @@ public class WallE {
             }
         }
 
-        tasks[listSize] = new Deadline(deadlineName.toString(), byDate.toString());
+        tasks.add(new Deadline(deadlineName.toString(), byDate.toString()));
         listSize++;
-        printWithLineBreak(tasks[listSize - 1].toString());
+        printWithLineBreak(tasks.get(listSize - 1).toString());
     }
 
-    private static void addTodo(Task[] tasks, String[] params, String userInput) {
-        tasks[listSize] = new Todo(params[1]);
+    private static void addTodo(String[] params, String userInput) {
+        tasks.add(new Todo(params[1]));
         listSize++;
-        printWithLineBreak("added: " + userInput);
+        printWithLineBreak("added: " + tasks.get(listSize - 1).toString());
     }
 
-    private static void unmarkTask(String[] params, Task[] tasks) {
+    private static void unmarkTask(String[] params) {
         int taskIndex;
         taskIndex = Integer.parseInt(params[1]);
-        tasks[taskIndex - 1].unmarkAsDone();
+        tasks.get(taskIndex - 1).unmarkAsDone();
         printWithLineBreak("OK, I've marked this task as not done yet:\n"
-                            + "\t" + tasks[taskIndex - 1]);
+                            + "\t" + tasks.get(taskIndex - 1).toString());
     }
 
-    private static void markTask(String[] params, Task[] tasks) {
+    private static void markTask(String[] params) {
         int taskIndex;
         taskIndex = Integer.parseInt(params[1]);
-        tasks[taskIndex - 1].markAsDone();
+        tasks.get(taskIndex - 1).markAsDone();
         printWithLineBreak("Nice! I've marked this task as done:\n"
-                            + "\t" + tasks[taskIndex - 1]);
+                            + "\t" + tasks.get(taskIndex - 1));
     }
 }
