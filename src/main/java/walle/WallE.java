@@ -102,15 +102,76 @@ public class WallE {
     }
 
     private static void addEvent(Task[] tasks, String[] params) {
-        tasks[listSize] = new Event(params[1], params[2], params[3]);
+        int fromIndex = 0;
+        int toIndex = 0;
+
+        StringBuilder eventName = new StringBuilder();
+        StringBuilder startDate = new StringBuilder();
+        StringBuilder endDate = new StringBuilder();
+        int stringType = 0;
+
+        for (int i = 1; i < params.length; i++) {
+            if (params[i].equals("/from")) {
+                stringType = 1;
+            } else if (params[i].equals("/to")) {
+                stringType = 2;
+            } else {
+                if (stringType == 0) {
+                    if (eventName.isEmpty()) {
+                        eventName.append(params[i]);
+                    } else {
+                        eventName.append(" ").append(params[i]);
+                    }
+                } else if (stringType == 1) {
+                    if (startDate.isEmpty()) {
+                        startDate.append(params[i]);
+                    } else {
+                        startDate.append(" ").append(params[i]);
+                    }
+                } else {
+                    if (endDate.isEmpty()) {
+                        endDate.append(params[i]);
+                    } else {
+                        endDate.append(" ").append(params[i]);
+                    }
+                }
+            }
+        }
+
+        tasks[listSize] = new Event(eventName.toString(), startDate.toString(), endDate.toString());
         listSize++;
-        printWithLineBreak("added: " + params[1] + " " + params[2] + params[3]);
+        printWithLineBreak("added: " + tasks[listSize - 1].toString());
     }
 
     private static void addDeadline(Task[] tasks, String[] params) {
-        tasks[listSize] = new Deadline(params[1], params[2]);
+        StringBuilder deadlineName = new StringBuilder();
+        StringBuilder byDate = new StringBuilder();
+        int stringType = 0;
+
+        for (int i = 1; i < params.length; i++) {
+            if (params[i].equals("/by")) {
+                stringType = 2;
+            } else {
+                if (stringType == 0) {
+                    if (!deadlineName.isEmpty()) {
+                        deadlineName.append(" ").append(params[i]);
+                    } else {
+                        deadlineName.append(params[i]);
+                    }
+
+                } else if (stringType == 2) {
+                    if (!byDate.isEmpty()) {
+                        byDate.append(" ").append(params[i]);
+                    } else {
+                        byDate.append(params[i]);
+                    }
+                }
+            }
+        }
+
+        tasks[listSize] = new Deadline(deadlineName.toString(), byDate.toString());
         listSize++;
-        printWithLineBreak("added: " + params[1] + " " + params[2]);
+        printWithLineBreak(tasks[listSize - 1].toString());
     }
 
     private static void addTodo(Task[] tasks, String[] params, String userInput) {
