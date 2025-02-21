@@ -88,11 +88,16 @@ public class WallE {
                 addEvent(params);
                 break;
 
+            case "delete":
+                int taskIndex = Integer.parseInt(params[1]);
+                deleteTask(taskIndex - 1); // 1 indexed
+                break;
+
             default:
                 throw new WallEException("Invalid command");
             }
         } catch(IndexOutOfBoundsException e) {
-            printWithLineBreak("Invalid number of arguments.");
+            printWithLineBreak("Invalid command, please ensure correct arguments.");
         } catch (WallEException e) {
             printWithLineBreak(e.getMessage());
         }
@@ -102,6 +107,12 @@ public class WallE {
         tasks.add(new Task(userInput));
         listSize++;
         printWithLineBreak("added: " + userInput);
+    }
+
+    private static void deleteTask(int taskIndex) {
+        Task deletedTask = tasks.remove(taskIndex);
+        listSize--;
+        printWithLineBreak("deleted task: " + deletedTask.toString());
     }
 
     private static void addEvent(String[] params) {
