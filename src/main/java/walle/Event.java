@@ -15,6 +15,18 @@ public class Event extends Task {
         return "[E]";
     }
 
+    public String getTypeIcon() {
+        return "E";
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
     @Override
     public String toString() {
         return super.toString() + " (from: " + startDate + ", to: " + endDate + ")";

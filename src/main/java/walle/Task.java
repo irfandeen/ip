@@ -25,6 +25,18 @@ public class Task {
         return "[ ]";
     }
 
+    public String getTypeIcon() {
+        return " ";
+    }
+
+    public boolean isDone() {
+        return isDone;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
     @Override
     public String toString() {
         return getType() + getStatusIcon() + " " + description;

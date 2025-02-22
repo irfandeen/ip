@@ -9,4 +9,8 @@ public class Todo extends Task {
     public String getType() {
         return "[T]";
     }
+
+    public String getTypeIcon() {
+        return "T";
+    }
 }

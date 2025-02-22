@@ -1,0 +1,4 @@
+1,T,hi
+0,E,seminar,2pm,3pm
+1,D,hello,tomorrow
+0,T,hi

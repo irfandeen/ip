@@ -13,6 +13,14 @@ public class Deadline extends Task {
         return "[D]";
     }
 
+    public String getTypeIcon() {
+        return "D";
+    }
+
+    public String getDueDate() {
+        return dueDate;
+    }
+
     @Override
     public String toString() {
         return super.toString() + " (by: " + dueDate + ")";
