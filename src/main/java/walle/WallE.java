@@ -9,7 +9,7 @@ public class WallE {
     private static final int MAX_LIST_SIZE = 100;
     private static final String exitMessage = "Bye. Hope to see you again soon!";
     private static final String greeting = "Hello! I'm Wall-E!\n" + "\tWhat can I do for you?\n\n";
-    private static Integer listSize = 0;
+    private static int listSize = 0;
     private static final String FILE_NAME = "data.txt";
 
     public static void printLineBreak() {
@@ -49,8 +49,8 @@ public class WallE {
         Task[] tasks = new Task[MAX_LIST_SIZE];
 
         FileParser parser = new FileParser("data.txt");
-        tasks = parser.readFileContents(FILE_NAME, listSize);
-        System.out.println("Updated list size: " + listSize);
+        listSize = parser.readFileContents(FILE_NAME, tasks);
+        printWithLineBreak("Stored list size: " + listSize);
         Scanner reader = new Scanner(System.in);
         String userInput = reader.nextLine();
 

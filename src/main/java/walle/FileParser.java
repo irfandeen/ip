@@ -7,10 +7,10 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class FileParser {
-    public static Task[] readFileContents(String filePath, Integer listSize) throws FileNotFoundException {
-        Task[] tasks = new Task[100];
+    public static int readFileContents(String filePath, Task[] tasks) throws FileNotFoundException {
         File f = new File(filePath);
         Scanner s = new Scanner(f);
+        int listSize = 0;
         while (s.hasNext()) {
             String[] taskString = s.nextLine().split(",");
             boolean isDone = taskString[0].equals("1") ? true : false;
@@ -27,10 +27,15 @@ public class FileParser {
                 String toDate = taskString[4];
                 tasks[listSize] = new Event(taskDescription, fromDate, toDate);
             }
+
+            if (isDone) {
+                tasks[listSize].markAsDone();
+            }
+
             listSize++;
         }
         s.close();
-        return tasks;
+        return listSize;
     }
 
     private static void createFile(String filePath) {
@@ -45,7 +50,6 @@ public class FileParser {
             }
         } catch (IOException e) {
             System.out.println("An error occurred while creating the file.");
-            e.printStackTrace();
         }
     }
 
@@ -53,13 +57,6 @@ public class FileParser {
         File f = new File(filePath);
         if (!f.exists()) {
             createFile(filePath);
-        }
-
-        try {
-            System.out.println("Reading file: " + f.getName());
-            readFileContents(filePath, 0);
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found");
         }
     }
 
