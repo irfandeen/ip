@@ -1,4 +1,4 @@
 0,T,hi
 1,T,bye
-0,E,seminar,4pm,6pm
+1,E,seminar,4pm,6pm
 1,D,push commits,today 4pm

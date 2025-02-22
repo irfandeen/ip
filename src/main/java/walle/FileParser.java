@@ -4,10 +4,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class FileParser {
-    public static int readFileContents(String filePath, Task[] tasks) throws FileNotFoundException {
+    public static int readFileContents(String filePath, ArrayList<Task> tasks) throws FileNotFoundException {
         File f = new File(filePath);
         Scanner s = new Scanner(f);
         int listSize = 0;
@@ -18,18 +19,18 @@ public class FileParser {
             String taskDescription = taskString[2];
 
             if (taskType.equals("T")) {
-                tasks[listSize] = new Todo(taskDescription);
+                tasks.add(new Todo(taskDescription));
             } else if (taskType.equals("D")) {
                 String dueDate = taskString[3];
-                tasks[listSize] = new Deadline(taskDescription, dueDate);
+                tasks.add(new Deadline(taskDescription, dueDate));
             } else if (taskType.equals("E")) {
                 String fromDate = taskString[3];
                 String toDate = taskString[4];
-                tasks[listSize] = new Event(taskDescription, fromDate, toDate);
+                tasks.add(new Event(taskDescription, fromDate, toDate));
             }
 
             if (isDone) {
-                tasks[listSize].markAsDone();
+                tasks.get(listSize).markAsDone();
             }
 
             listSize++;
@@ -60,7 +61,7 @@ public class FileParser {
         }
     }
 
-    public void saveToFile(String filePath, Task[] tasks, int listSize) {
+    public void saveToFile(String filePath, ArrayList<Task> tasks, int listSize) {
         File f = new File(filePath);
         if (!f.exists()) {
             createFile(filePath);
@@ -69,7 +70,7 @@ public class FileParser {
         try {
             FileWriter writer = new FileWriter(f);
             for (int i = 0; i < listSize; i++) {
-                Task t = tasks[i];
+                Task t = tasks.get(i);
                 String status = t.isDone() ? "1" : "0";
                 writer.write(status + "," + t.getTypeIcon() + "," + t.getDescription());
                 if (t.getTypeIcon() == "T") {
