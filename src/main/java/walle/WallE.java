@@ -3,12 +3,16 @@ package walle;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class WallE {
     private static final int MAX_LIST_SIZE = 100;
     private static final String exitMessage = "Bye. Hope to see you again soon!";
     private static final String greeting = "Hello! I'm Wall-E!\n" + "\tWhat can I do for you?\n\n";
     private static int listSize = 0;
+    private static final String FILE_NAME = "data.txt";
     private static ArrayList<Task> tasks = new ArrayList<>();
 
     public static void printLineBreak() {
@@ -43,11 +47,13 @@ public class WallE {
         printLineBreak();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         printGreeting();
+        FileParser parser = new FileParser("data.txt");
+        listSize = parser.readFileContents(FILE_NAME, tasks);
+        printWithLineBreak("Stored list size: " + listSize);
         Scanner reader = new Scanner(System.in);
         String userInput = reader.nextLine();
-
 
         // Echoes the input, unless input == bye
         while (!userInput.equals("bye")) {
@@ -57,6 +63,9 @@ public class WallE {
             userInput = reader.nextLine();
         }
 
+        //putIntoStoredTasks(tasks);
+        parser.saveToFile("data.txt", tasks, listSize);
+        printWithoutLineBreak("Saved data to " + FILE_NAME);
         printExitMessage();
         reader.close();
     }
@@ -172,7 +181,6 @@ public class WallE {
                     } else {
                         deadlineName.append(params[i]);
                     }
-
                 } else if (stringType == 2) {
                     if (!byDate.isEmpty()) {
                         byDate.append(" ").append(params[i]);
