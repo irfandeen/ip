@@ -1,4 +1,4 @@
-package walle;
+package walle.task;
 
 public class Todo extends Task {
     public Todo(String description) {

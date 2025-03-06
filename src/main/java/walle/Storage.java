@@ -1,5 +1,10 @@
 package walle;
 
+import walle.task.Deadline;
+import walle.task.Event;
+import walle.task.Task;
+import walle.task.Todo;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -7,13 +12,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class FileParser {
-    public static int readFileContents(String filePath, ArrayList<Task> tasks) throws FileNotFoundException {
-        File f = new File(filePath);
-        Scanner s = new Scanner(f);
+public class Storage {
+    private File file;
+
+    public int readFileContents(String filePath, ArrayList<Task> tasks) throws FileNotFoundException {
+        Scanner scanner = new Scanner(file);
         int listSize = 0;
-        while (s.hasNext()) {
-            String[] taskString = s.nextLine().split(",");
+        while (scanner.hasNext()) {
+            String[] taskString = scanner.nextLine().split(",");
             boolean isDone = taskString[0].equals("1") ? true : false;
             String taskType = taskString[1];
             String taskDescription = taskString[2];
@@ -35,16 +41,16 @@ public class FileParser {
 
             listSize++;
         }
-        s.close();
+        scanner.close();
         return listSize;
     }
 
-    private static void createFile(String filePath) {
+    private void createFile(String filePath) {
         try {
-            File f = new File(filePath);
-            if (f.createNewFile()) {
-                System.out.println("File created: " + f.getName());
-                FileWriter writer = new FileWriter(f);
+            File tempFile = new File(filePath);
+            if (tempFile.createNewFile()) {
+                System.out.println("File created: " + tempFile.getName());
+                FileWriter writer = new FileWriter(tempFile);
                 writer.close();
             } else {
                 System.out.println("File already exists.");
@@ -54,21 +60,16 @@ public class FileParser {
         }
     }
 
-    public FileParser(String filePath) {
-        File f = new File(filePath);
-        if (!f.exists()) {
+    public Storage(String filePath) {
+        file = new File(filePath);
+        if (!file.exists()) {
             createFile(filePath);
         }
     }
 
     public void saveToFile(String filePath, ArrayList<Task> tasks, int listSize) {
-        File f = new File(filePath);
-        if (!f.exists()) {
-            createFile(filePath);
-        }
-
         try {
-            FileWriter writer = new FileWriter(f);
+            FileWriter writer = new FileWriter(file);
             for (int i = 0; i < listSize; i++) {
                 Task t = tasks.get(i);
                 String status = t.isDone() ? "1" : "0";

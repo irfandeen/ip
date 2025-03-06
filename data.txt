@@ -1,4 +1,3 @@
-0,T,hi
-1,T,bye
-1,E,seminar,4pm,6pm
-0,D,push commits,today 4pm
+0,T,homework
+0,E,coldplay concert,4pm,9pm
+0,D,pull request,friday

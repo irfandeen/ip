@@ -1,4 +1,4 @@
-package walle;
+package walle.task;
 
 public class Deadline extends Task {
     protected String dueDate;

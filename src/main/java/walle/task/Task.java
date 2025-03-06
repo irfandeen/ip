@@ -1,4 +1,4 @@
-package walle;
+package walle.task;
 
 public class Task {
     protected String description;
