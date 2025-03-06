@@ -22,100 +22,38 @@ public class TaskList {
     }
 
     public void deleteTask(int taskIndex) {
-        Task deletedTask = tasks.remove(taskIndex);
+        Task deletedTask = tasks.remove(taskIndex - 1);
         listSize = getListSize() - 1;
         ui.printWithLineBreak("deleted task: " + deletedTask.toString());
     }
 
-    public void addEvent(String[] params) {
-        StringBuilder eventName = new StringBuilder();
-        StringBuilder startDate = new StringBuilder();
-        StringBuilder endDate = new StringBuilder();
-        int stringType = 0;
-
-        for (int i = 1; i < params.length; i++) {
-            if (params[i].equals("/from")) {
-                stringType = 1;
-            } else if (params[i].equals("/to")) {
-                stringType = 2;
-            } else {
-                if (stringType == 0) {
-                    if (eventName.isEmpty()) {
-                        eventName.append(params[i]);
-                    } else {
-                        eventName.append(" ").append(params[i]);
-                    }
-                } else if (stringType == 1) {
-                    if (startDate.isEmpty()) {
-                        startDate.append(params[i]);
-                    } else {
-                        startDate.append(" ").append(params[i]);
-                    }
-                } else {
-                    if (endDate.isEmpty()) {
-                        endDate.append(params[i]);
-                    } else {
-                        endDate.append(" ").append(params[i]);
-                    }
-                }
-            }
-        }
-
-        tasks.add(new Event(eventName.toString(), startDate.toString(), endDate.toString()));
+    public void addEvent(String eventName, String startDate, String endDate) {
+        tasks.add(new Event(eventName, startDate, endDate));
         listSize = getListSize() + 1;
         ui.printWithLineBreak("added: " + tasks.get(getListSize() - 1).toString());
     }
 
-    public void addDeadline(String[] params) {
-        StringBuilder deadlineName = new StringBuilder();
-        StringBuilder byDate = new StringBuilder();
-        int stringType = 0;
-
-        for (int i = 1; i < params.length; i++) {
-            if (params[i].equals("/by")) {
-                stringType = 2;
-            } else {
-                if (stringType == 0) {
-                    if (!deadlineName.isEmpty()) {
-                        deadlineName.append(" ").append(params[i]);
-                    } else {
-                        deadlineName.append(params[i]);
-                    }
-                } else if (stringType == 2) {
-                    if (!byDate.isEmpty()) {
-                        byDate.append(" ").append(params[i]);
-                    } else {
-                        byDate.append(params[i]);
-                    }
-                }
-            }
-        }
-
-        tasks.add(new Deadline(deadlineName.toString(), byDate.toString()));
-        listSize = getListSize() + 1;
-        ui.printWithLineBreak(tasks.get(getListSize() - 1).toString());
-    }
-
-    public void addTodo(String[] params, String userInput) {
-        tasks.add(new Todo(params[1]));
+    public void addDeadline(String taskName, String dueDate) {
+        tasks.add(new Deadline(taskName, dueDate));
         listSize = getListSize() + 1;
         ui.printWithLineBreak("added: " + tasks.get(getListSize() - 1).toString());
     }
 
-    public void unmarkTask(String[] params) {
-        int taskIndex;
-        taskIndex = Integer.parseInt(params[1]);
+    public void addTodo(String todoTask) {
+        tasks.add(new Todo(todoTask));
+        listSize = getListSize() + 1;
+        ui.printWithLineBreak("Added: " + tasks.get(getListSize() - 1).toString());
+    }
+
+    public void unmarkTask(int taskIndex) {
         tasks.get(taskIndex - 1).unmarkAsDone();
         ui.printWithLineBreak("OK, I've marked this task as not done yet:\n"
                 + "\t" + tasks.get(taskIndex - 1).toString());
     }
 
-    public void markTask(String[] params) {
-        int taskIndex;
-        taskIndex = Integer.parseInt(params[1]);
+    public void markTask(int taskIndex) {
         tasks.get(taskIndex - 1).markAsDone();
-        ui.printWithLineBreak("Nice! I've marked this task as done:\n"
-                + "\t" + tasks.get(taskIndex - 1));
+        ui.printWithLineBreak("Nice! I've marked this task as done:\n" + "\t" + tasks.get(taskIndex - 1));
     }
 
     public TaskList() {

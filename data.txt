@@ -1,3 +1,8 @@
-0,T,homework
-0,E,coldplay concert,4pm,9pm
-0,D,pull request,friday
+1,T,homework
+1,E,coldplay concert,4pm,9pm
+0,T,123
+0,T,do work
+0,D,do something,tomorrow
+1,E,dinner,2,3
+1,E,something something,9am,9pm
+0,T,something
