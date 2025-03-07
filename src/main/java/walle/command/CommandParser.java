@@ -6,6 +6,9 @@ import walle.exception.InvalidCommandException;
 import walle.exception.InvalidCommandParameterException;
 import walle.task.Task;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -16,9 +19,9 @@ public class CommandParser {
     private static final int MIN_DEADLINE_LENGTH = 4;
     private static final int MIN_EVENT_LENGTH = 6;
 
-    public CommandType getCommandType(String[] command) throws InvalidCommandException {
+    public CommandType getCommandType(String[] params) throws InvalidCommandException {
         CommandType commandType;
-        switch (command[0]) {
+        switch (params[0]) {
         case "list":
             commandType = CommandType.LIST;
             break;
@@ -162,13 +165,23 @@ public class CommandParser {
         }
 
         int byIndex = Arrays.asList(params).indexOf("/by");
-        if (byIndex == -1 || byIndex == params.length - 1) {
-            throw new InvalidCommandParameterException("Deadline command expects a valid due date.");
+        if (byIndex == -1 || byIndex >= params.length - 2) {
+            throw new InvalidCommandParameterException("Deadline command expects a valid due date and time.");
+        }
+        if (!isValidDate(params[byIndex + 1])) {
+            throw new InvalidCommandParameterException("Deadline command expects a valid due date of the format dd-mm-yyyy HHMM.");
+        }
+        if (!isValidTime(params[byIndex + 2])) {
+            throw new InvalidCommandParameterException("Deadline command expects a valid time of the format HH:MM");
         }
 
         String taskName = String.join(" ", Arrays.copyOfRange(params, 1, byIndex));
-        String dueDate = String.join(" ", Arrays.copyOfRange(params, byIndex + 1, params.length));
-        tasks.addDeadline(taskName, dueDate);
+        String dueDateStr = params[byIndex + 1];
+        String dueTimeStr = params[byIndex + 2];
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HHmm");
+
+        tasks.addDeadline(taskName, LocalDate.parse(dueDateStr, dateFormatter), LocalTime.parse(dueTimeStr, timeFormatter));
     }
 
     private void handleEventCommand(String[] params, TaskList tasks) throws InvalidCommandParameterException {
@@ -233,5 +246,25 @@ public class CommandParser {
     private boolean isValidIndex(String input, TaskList tasks) {
         int index = Integer.parseInt(input);
         return index >= 1 && index <= tasks.getListSize();
+    }
+
+    private boolean isValidDate(String dateStr) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        try {
+            LocalDate.parse(dateStr, formatter);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isValidTime(String timeStr) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HHmm");
+        try {
+            LocalTime.parse(timeStr, formatter);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 }
