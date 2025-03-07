@@ -19,9 +19,9 @@ public class CommandParser {
     private static final int MIN_DEADLINE_LENGTH = 4;
     private static final int MIN_EVENT_LENGTH = 6;
 
-    public CommandType getCommandType(String[] command) throws InvalidCommandException {
+    public CommandType getCommandType(String[] params) throws InvalidCommandException {
         CommandType commandType;
-        switch (command[0]) {
+        switch (params[0]) {
         case "list":
             commandType = CommandType.LIST;
             break;
