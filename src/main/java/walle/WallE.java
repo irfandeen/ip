@@ -24,7 +24,7 @@ public class WallE {
         CommandType commandType = null;
         try {
             commandType = parser.getCommandType(params);
-            parser.handleCommand(commandType, params, tasks);
+            parser.handleCommand(commandType, params, tasks, ui);
         } catch (InvalidCommandException e) {
             ui.printWithLineBreak(e.getMessage());
         } catch (InvalidCommandParameterException e) {

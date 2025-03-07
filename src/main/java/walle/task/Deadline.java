@@ -1,20 +1,27 @@
 package walle.task;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
 /**
  * Represents a task with a deadline.
  * Inherits from the {@link Task} class and adds a due date.
  */
 public class Deadline extends Task {
-    protected String dueDate;
+    protected LocalDate dueDate;
+    protected LocalTime dueTime;
 
-    /**
-     * Constructs a Deadline task with a description and due date.
-     *
-     * @param description The description of the task.
-     * @param dueDate The due date of the task.
-     */
-    public Deadline(String description, String dueDate) {
+    public Deadline(String description, LocalDate dueDate, LocalTime dueTime) {
         super(description);
         this.dueDate = dueDate;
+        this.dueTime = dueTime;
+    }
+
+    public Deadline(String description, String dueDate, String dueTime) {
+        super(description);
+        this.dueDate = LocalDate.parse(dueDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        this.dueTime = LocalTime.parse(dueTime, DateTimeFormatter.ofPattern("HH:mm"));
     }
 
     /**
@@ -42,11 +49,18 @@ public class Deadline extends Task {
      * @return The due date as a string.
      */
     public String getDueDate() {
-        return dueDate;
+        return dueDate.toString();
+    }
+
+    public String getDueTime() {
+        return dueTime.toString();
     }
 
     @Override
     public String toString() {
-        return super.toString() + " (by: " + dueDate + ")";
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm a");
+
+        return super.toString() + " (by: " + dueDate.format(dateFormatter) + " " +  dueTime.format(timeFormatter) + ")";
     }
 }

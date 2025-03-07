@@ -5,6 +5,8 @@ import walle.task.Event;
 import walle.task.Task;
 import walle.task.Todo;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 /**
@@ -36,7 +38,7 @@ public class TaskList {
     public void deleteTask(int taskIndex) {
         Task deletedTask = tasks.remove(taskIndex - 1);
         listSize = getListSize() - 1;
-        ui.printWithLineBreak("deleted task: " + deletedTask.toString());
+        ui.printWithLineBreak("Deleted task: " + deletedTask.toString());
     }
 
     /**
@@ -49,7 +51,7 @@ public class TaskList {
     public void addEvent(String eventName, String startDate, String endDate) {
         tasks.add(new Event(eventName, startDate, endDate));
         listSize = getListSize() + 1;
-        ui.printWithLineBreak("added: " + tasks.get(getListSize() - 1).toString());
+        ui.printWithLineBreak("Added: " + tasks.get(getListSize() - 1).toString());
     }
 
     /**
@@ -58,10 +60,10 @@ public class TaskList {
      * @param taskName The name/description of the task.
      * @param dueDate The due date of the task.
      */
-    public void addDeadline(String taskName, String dueDate) {
-        tasks.add(new Deadline(taskName, dueDate));
+    public void addDeadline(String taskName, LocalDate dueDate, LocalTime deadlineTime) {
+        tasks.add(new Deadline(taskName, dueDate, deadlineTime));
         listSize = getListSize() + 1;
-        ui.printWithLineBreak("added: " + tasks.get(getListSize() - 1).toString());
+        ui.printWithLineBreak("Added: " + tasks.get(getListSize() - 1).toString());
     }
 
     /**
