@@ -1,10 +1,12 @@
 package walle.command;
 
 import walle.TaskList;
+import walle.UserInterface;
 import walle.exception.InvalidCommandException;
 import walle.exception.InvalidCommandParameterException;
 import walle.task.Task;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class CommandParser {
@@ -45,6 +47,10 @@ public class CommandParser {
             commandType = CommandType.DELETE;
             break;
 
+        case "find":
+            commandType = CommandType.FIND;
+            break;
+
         default:
             commandType = null;
         }
@@ -55,7 +61,7 @@ public class CommandParser {
         return commandType;
     }
 
-    public void handleCommand(CommandType commandType, String[] params, TaskList tasks) throws InvalidCommandParameterException, InvalidCommandException {
+    public void handleCommand(CommandType commandType, String[] params, TaskList tasks, UserInterface ui) throws InvalidCommandParameterException, InvalidCommandException {
         switch (commandType) {
         case LIST:
             handleListCommand(params, tasks);
@@ -77,6 +83,9 @@ public class CommandParser {
             break;
         case EVENT:
             handleEventCommand(params, tasks);
+            break;
+        case FIND:
+            handleFindCommand(params, tasks, ui);
             break;
         default:
             throw new InvalidCommandException("Unknown command type");
@@ -185,6 +194,32 @@ public class CommandParser {
         String toDate = String.join(" ", Arrays.copyOfRange(params, toIndex + 1, params.length));
         tasks.addEvent(eventName, fromDate, toDate);
     }
+
+    private void handleFindCommand(String[] params, TaskList tasks, UserInterface ui) throws InvalidCommandParameterException {
+        if (params.length <= LIST_COMMAND_LENGTH) {
+            throw new InvalidCommandParameterException("Invalid find command. Find takes at least one keyword as argument.");
+        }
+
+        String searchStr = String.join(" ", Arrays.copyOfRange(params, 1, params.length));
+        ui.printLineBreak();
+        ui.printWithoutLineBreak("Results of find command:");
+        ArrayList<Task> taskIterable = tasks.getTasks();
+        int index = 1;
+
+        for (Task task : taskIterable) {
+            if (!task.getDescription().toLowerCase().contains(searchStr.toLowerCase())) {
+                continue;
+            }
+            ui.printWithoutLineBreak(String.valueOf(index) + ". " + task.toString());
+            index++;
+        }
+        if (index == 1) {
+            ui.printWithoutLineBreak("No tasks found.");
+        }
+
+        ui.printLineBreak();
+    }
+
 
     private boolean isValidInteger(String input) {
         try {
