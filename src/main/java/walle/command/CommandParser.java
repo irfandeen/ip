@@ -26,7 +26,7 @@ import java.util.Arrays;
     /**
      * Parses the command array to determine the command type.
      *
-     * @param command A string array where the first element specifies the command type.
+     * @param params A string array where the first element specifies the command type.
      * @return The corresponding {@link CommandType}.
      * @throws InvalidCommandException If the command is invalid.
      */

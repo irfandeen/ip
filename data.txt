@@ -1,3 +1,4 @@
-1,T,homework
-1,T,submit stuff
-1,D,more stuff to be done,2025-05-06,19:00
+1,T,some stuff
+0,E,coldplay concert,evening,night
+1,D,submit stuff,2025-05-05,18:00
+0,D,submit commits,2025-03-07,16:00
