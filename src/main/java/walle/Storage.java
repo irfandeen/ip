@@ -12,9 +12,21 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Handles reading from and writing to a storage file for tasks.
+ * Provides methods to load tasks from a file and save tasks to a file.
+ */
 public class Storage {
     private File file;
 
+    /**
+     * Reads the contents of the specified file and loads tasks into the provided list.
+     *
+     * @param filePath The path to the file to read from.
+     * @param tasks The list to store the loaded tasks.
+     * @return The number of tasks read from the file.
+     * @throws FileNotFoundException If the file cannot be found.
+     */
     public int readFileContents(String filePath, ArrayList<Task> tasks) throws FileNotFoundException {
         Scanner scanner = new Scanner(file);
         int listSize = 0;
@@ -67,6 +79,13 @@ public class Storage {
         }
     }
 
+    /**
+     * Saves the tasks to the file at the specified path.
+     *
+     * @param filePath The path to the file to save to.
+     * @param tasks The list of tasks to save.
+     * @param listSize The number of tasks to save.
+     */
     public void saveToFile(String filePath, ArrayList<Task> tasks, int listSize) {
         try {
             FileWriter writer = new FileWriter(file);

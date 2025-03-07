@@ -10,6 +10,9 @@ import walle.exception.WallEException;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+/**
+ * Represents the Wall-E application, which handles user input, task management, and file storage.
+ */
 public class WallE {
     private static final String FILE_NAME = "data.txt";
     private UserInterface ui;
@@ -61,12 +64,20 @@ public class WallE {
         reader.close();
     }
 
+    /**
+     * Constructs a new WallE object and initializes the user interface, task list, and command parser.
+     */
     public WallE() {
         ui = new UserInterface();
         tasks = new TaskList();
         parser = new CommandParser();
     }
 
+    /**
+     * The main method that starts the Wall-E application.
+     *
+     * @param args Command-line arguments (not used).
+     */
     public static void main(String[] args) {
         WallE wallE = new WallE();
         try {

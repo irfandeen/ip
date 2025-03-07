@@ -7,13 +7,24 @@ import walle.task.Task;
 
 import java.util.Arrays;
 
-public class CommandParser {
+/**
+ * The CommandParser class is responsible for parsing user input commands,
+ * determining their type, and delegating them to appropriate handlers.
+ */
+ public class CommandParser {
     private static final int LIST_COMMAND_LENGTH = 1;
     private static final int INDEX_COMMAND_LENGTH = 2;
     private static final int MIN_TODO_LENGTH = 2;
     private static final int MIN_DEADLINE_LENGTH = 4;
     private static final int MIN_EVENT_LENGTH = 6;
 
+    /**
+     * Parses the command array to determine the command type.
+     *
+     * @param command A string array where the first element specifies the command type.
+     * @return The corresponding {@link CommandType}.
+     * @throws InvalidCommandException If the command is invalid.
+     */
     public CommandType getCommandType(String[] command) throws InvalidCommandException {
         CommandType commandType;
         switch (command[0]) {
@@ -55,6 +66,15 @@ public class CommandParser {
         return commandType;
     }
 
+    /**
+     * Calls the appropriate handler based on the commandType.
+     *
+     * @param commandType The type of the command to execute.
+     * @param params The parameters associated with the command.
+     * @param tasks The list of tasks to modify based on the command.
+     * @throws InvalidCommandParameterException If the command parameters are invalid.
+     * @throws InvalidCommandException If the command type is unrecognized.
+     */
     public void handleCommand(CommandType commandType, String[] params, TaskList tasks) throws InvalidCommandParameterException, InvalidCommandException {
         switch (commandType) {
         case LIST:
