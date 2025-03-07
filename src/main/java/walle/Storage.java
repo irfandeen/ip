@@ -28,7 +28,8 @@ public class Storage {
                 tasks.add(new Todo(taskDescription));
             } else if (taskType.equals("D")) {
                 String dueDate = taskString[3];
-                tasks.add(new Deadline(taskDescription, dueDate));
+                String dueTime = taskString[4];
+                tasks.add(new Deadline(taskDescription, dueDate, dueTime));
             } else if (taskType.equals("E")) {
                 String fromDate = taskString[3];
                 String toDate = taskString[4];
@@ -78,7 +79,7 @@ public class Storage {
                     writer.write("\n");
                 } else if (t.getTypeIcon() == "D") {
                     Deadline d = (Deadline) t;
-                    writer.write("," + d.getDueDate() + "\n");
+                    writer.write("," + d.getDueDate() + "," + d.getDueTime() + "\n");
                 } else if (t.getTypeIcon() == "E") {
                     Event e = (Event) t;
                     writer.write("," + e.getStartDate() + "," + e.getEndDate() + "\n");
