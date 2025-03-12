@@ -1,4 +1,6 @@
 1,T,some stuff
 0,E,coldplay concert,evening,night
 1,D,submit stuff,2025-05-05,18:00
-0,D,assignment submission,2025-03-03,23:59
+1,D,assignment submission,2025-03-03,23:59
+0,E,CCA,evening,night
+0,D,submit JAR release,2023-03-15,23:59

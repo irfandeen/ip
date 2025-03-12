@@ -52,16 +52,15 @@ public class WallE {
         initialiseWallE();
 
         ui.printWithLineBreak("Stored list size: " + tasks.getListSize());
-        Scanner reader = new Scanner(System.in);
-        String userInput = reader.nextLine();
+        String userInput = ui.getInput();
         while (!userInput.equals("bye")) {
             String[] params = userInput.split(" ");
             handleUserInput(params);
-            userInput = reader.nextLine();
+            userInput = ui.getInput();
         }
 
         exitWallE();
-        reader.close();
+        ui.closeInput();
     }
 
     /**

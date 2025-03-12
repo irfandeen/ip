@@ -1,5 +1,7 @@
 package walle;
 
+import java.util.Scanner;
+
 /**
  * Represents the user interface of the Wall-E application. Provides methods to print messages
  * with specific formatting like line breaks and greetings.
@@ -7,6 +9,7 @@ package walle;
 public class UserInterface {
     private static final String EXIT_MESSAGE = "Bye. Hope to see you again soon!";
     private static final String GREETING = "Hello! I'm Wall-E!\n" + "\tWhat can I do for you?\n\n";
+    private Scanner scanner;
 
     /**
      * Prints a line break for formatting purposes.
@@ -51,7 +54,24 @@ public class UserInterface {
     }
 
     /**
-     * Constructs a new UserInterface object.
+     * Gets next line of input from user.
+     * @return Input from user in {@link String} format
      */
-    public UserInterface() { }
+    public String getInput() {
+        return scanner.nextLine();
+    }
+
+    /**
+     *  Closes standard input to prevent memory leakage.
+     */
+    public void closeInput() {
+        scanner.close();
+    }
+
+    /**
+     * Constructs a new UserInterface object and instantiates standard input.
+     */
+    public UserInterface() {
+        scanner = new Scanner(System.in);
+    }
 }
