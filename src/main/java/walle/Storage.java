@@ -73,6 +73,12 @@ public class Storage {
         }
     }
 
+    /**
+     * Instantiate storage functionality by providing relative file path to stored data.
+     * Creates a new file if file does not exist.
+     *
+     * @param filePath Relative path to the data file to read from.
+     */
     public Storage(String filePath) {
         file = new File(filePath);
         if (!file.exists()) {

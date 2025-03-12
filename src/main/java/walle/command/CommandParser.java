@@ -186,13 +186,13 @@ import java.util.Arrays;
 
         int byIndex = Arrays.asList(params).indexOf("/by");
         if (byIndex == -1 || byIndex >= params.length - 2) {
-            throw new InvalidCommandParameterException("Deadline command expects a valid due date and time.");
+            throw new InvalidCommandParameterException("Deadline command expects a valid due date and time of the format yyyy-MM-dd HHMM.");
         }
         if (!isValidDate(params[byIndex + 1])) {
-            throw new InvalidCommandParameterException("Deadline command expects a valid due date of the format dd-mm-yyyy HHMM.");
+            throw new InvalidCommandParameterException("Deadline command expects a valid due date of the format yyyy-MM-dd HHMM.");
         }
         if (!isValidTime(params[byIndex + 2])) {
-            throw new InvalidCommandParameterException("Deadline command expects a valid time of the format HH:MM");
+            throw new InvalidCommandParameterException("Deadline command expects a valid time of the format HHMM (no separators between hour and minutes).");
         }
 
         String taskName = String.join(" ", Arrays.copyOfRange(params, 1, byIndex));
